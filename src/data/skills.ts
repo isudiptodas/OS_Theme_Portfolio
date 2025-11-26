@@ -38,4 +38,5 @@ export const misc = [
     'Drizzle',
     'Prisma',
     'Docker',
+    'Langchain'
 ];
