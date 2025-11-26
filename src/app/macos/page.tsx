@@ -53,6 +53,10 @@ function page() {
 
     }, []);
 
+    const navigate = (url: string) => {
+        window.open(url, '_blank');
+    }
+
     return (
         <>
             <div className={`w-full ${hideLoading ? "hidden" : "block"} absolute top-0 ${macosVisible ? "opacity-0" : "opacity-100"} duration-300 ease-in-out h-screen hidden bg-zinc-950 lg:flex justify-center items-center gap-3`}>
@@ -80,7 +84,7 @@ function page() {
             <div className={`w-full h-screen hidden relative lg:flex justify-center items-center overflow-hidden`}>
                 <img src="/assets/macos-sudipto.jpg" className={`absolute top-0`} />
 
-                <nav className={`w-full h-auto px-3 py-3 flex justify-between items-center backdrop-blur-3xl bg-white/20 fixed top-0`}>
+                <nav className={`w-full h-auto px-3 py-3 flex justify-between items-center backdrop-blur-3xl bg-black/10 fixed top-0`}>
                     <div className={`w-auto flex justify-center items-center gap-4`}>
                         <span><FaApple className={`text-lg cursor-pointer`} /></span>
                         <p className={`font-bold text-sm cursor-pointer`}>Sudipto's Portfolio</p>
@@ -115,8 +119,19 @@ function page() {
                     <div className={`w-auto backdrop-blur-3xl bg-white/20 rounded-xl flex justify-evenly items-center`}>
                         {dockList.map((dock) => {
                             return <div key={dock.name} className={`h-auto relative w-auto flex justify-center items-center`}>
-                                <span className={`absolute text-white -bottom-1 text-lg ${openedApps?.includes(dock.name as string) ? "block" : "hidden"}`}>●</span>
-                                <img onClick={() => setOpenedApps(prev => [...(prev ?? []), dock.name as string])} src={dock.icon} data-tooltip-id="icon-tooltip" data-tooltip-content={dock.name} className={`h-16 cursor-pointer group hover:scale-125 hover:-translate-y-3 duration-200 ease-in-out`} />
+                                <img onClick={() => {
+                                    if(!(dock.name === 'Github' || dock.name === 'LinkedIn' || dock.name === 'Mail')){
+                                        if(openedApps.includes(dock.name)){
+                                            setOpenedApps(openedApps.filter((app) => app !== dock.name));
+                                        }
+                                        else{
+                                            setOpenedApps(prev => [...(prev ?? []), dock.name as string]);
+                                        }
+                                    }
+                                    if(dock.clickable && dock.link){
+                                        navigate(dock?.link)
+                                    }
+                                }} src={dock.icon} data-tooltip-id="icon-tooltip" data-tooltip-content={dock.name} className={`h-16 cursor-pointer group hover:scale-125 hover:-translate-y-3 duration-200 ease-in-out`} />
                                 <Tooltip id="icon-tooltip" />
                             </div>
                         })}

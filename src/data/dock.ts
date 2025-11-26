@@ -7,17 +7,19 @@ export const dockList = [
     {
         name: `Github`,
         icon: `/assets/app-icons/github.png`,
-        clickable: false
+        link: `https://github.com/isudiptodas`,
+        clickable: true
     },
     {
         name: `LinkedIn`,
         icon: `/assets/app-icons/linkedin.png`,
-        clickable: false
+        link: `https://www.linkedin.com/in/sudiptodas-developer`,
+        clickable: true
     },
     {
         name: `Terminal`,
         icon: `/assets/app-icons/terminal.png`,
-        clickable: true
+        clickable: false
     },
     {
         name: `Notes`,
@@ -27,6 +29,7 @@ export const dockList = [
     {
         name: `Mail`,
         icon: `/assets/app-icons/mail.png`,
+        link: `mailto:work.sudiptodas@gmail.com`,
         clickable: true
     },
     {
