@@ -10,7 +10,7 @@ import { Tooltip } from 'react-tooltip';
 import Terminal from "@/components/Terminal";
 import Settings from "@/components/Settings";
 import Notes from "@/components/Notes";
-import { Rnd } from "react-rnd";
+import { FaCircleExclamation } from "react-icons/fa6";
 
 function page() {
 
@@ -59,7 +59,12 @@ function page() {
 
     return (
         <>
-            <div className={`w-full ${hideLoading ? "hidden" : "block"} absolute top-0 ${macosVisible ? "opacity-0" : "opacity-100"} duration-300 ease-in-out h-screen hidden bg-zinc-950 lg:flex justify-center items-center gap-3`}>
+            <div className={`w-full h-screen bg-zinc-950 flex flex-col justify-center items-center gap-3 xl:hidden`}>
+                <span className={`text-3xl md:text-5xl text-white opacity-30`}><FaCircleExclamation /></span>
+                <p className={`w-full text-center px-4 font-semibold text-xl md:text-2xl text-white opacity-30`}>This page is only available for desktop screens</p>
+            </div>
+
+            <div className={`w-full ${hideLoading ? "hidden" : "block"} absolute top-0 ${macosVisible ? "opacity-0" : "opacity-100"} duration-300 ease-in-out h-screen hidden bg-zinc-950 xl:flex justify-center items-center gap-3`}>
                 <span><FaApple className={`text-white text-2xl`} /></span>
                 <ProgressBar
                     completed={percentage as number}
@@ -81,8 +86,8 @@ function page() {
                 </div>
             </div>
 
-            <div className={`w-full h-screen hidden relative lg:flex justify-center items-center overflow-hidden`}>
-                <img src="/assets/macos-sudipto.jpg" className={`absolute top-0`} />
+            <div className={`w-full h-screen hidden relative xl:flex justify-center items-center overflow-hidden`}>
+                <img src="/assets/macos-sudipto.jpg" className={`absolute top-0 h-full w-full object-top`} />
 
                 <nav className={`w-full h-auto px-3 py-3 flex justify-between items-center backdrop-blur-3xl bg-black/10 fixed top-0`}>
                     <div className={`w-auto flex justify-center items-center gap-4`}>

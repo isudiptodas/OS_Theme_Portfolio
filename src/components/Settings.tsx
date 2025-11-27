@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 
 function Settings() {
 
-    const [option, setOption] = useState<null | string>(null);
+    const [option, setOption] = useState<null | string>('Switch');
     const router = useRouter();
 
     const optionList = [

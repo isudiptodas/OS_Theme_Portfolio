@@ -21,6 +21,7 @@ function Terminal() {
     useEffect(() => {
 
         if (!submitted) return;
+        if(!input) return;
 
         const generateResponse = async () => {
             const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API as string;
