@@ -13,6 +13,9 @@ import { IoIosWifi } from "react-icons/io";
 import { RiAccountCircleFill } from "react-icons/ri";
 import { IoPower } from "react-icons/io5";
 import Panel from "@/components/Panel";
+import WindowsSettings from "@/components/WindowsSettings";
+import FileExplorer from "@/components/FileExplorer";
+import TextFile from "@/components/TextFile";
 
 function page() {
 
@@ -20,8 +23,11 @@ function page() {
   const [windowsVisible, setWindowsVisible] = useState(true);
   const [hideLoading, setHideLoading] = useState(false);
   const [startVisible, setStartVisible] = useState(false);
+  const [settingsVisible, setSettingsVisible] = useState(false);
   const [input, setInput] = useState<null | string>('');
   const [panelVisible, setPanelVisible] = useState(false);
+  const [explorerVisible, setExplorerVisible] = useState(false);
+  const [txtVisible, setTxtVisible] = useState(false);
 
   const date = new Date();
   const time = date.toLocaleTimeString('en-GB', {
@@ -105,8 +111,22 @@ function page() {
           </div>
         </div>
 
-        {/* settings panel  */}
-        <Panel visible={panelVisible} className={``} />
+        {/* settings box */}
+        <Activity mode={settingsVisible ? "visible" : "hidden"}>
+          <WindowsSettings showSettings={() => setSettingsVisible(!settingsVisible)} />
+        </Activity>
+
+        <Activity mode={explorerVisible ? "visible" : "hidden"}>
+          <FileExplorer showNotepad={() => setTxtVisible(!txtVisible)} showSettings={() => setExplorerVisible(!explorerVisible)} />
+        </Activity>
+
+        {/* control panel  */}
+        <Panel showSettings={() => setSettingsVisible(!settingsVisible)} visible={panelVisible} className={``} />
+        
+        {/* txt file */}
+        <Activity mode={txtVisible ? "visible" : "hidden"}>
+          <TextFile closeFile={() => setTxtVisible(!txtVisible)} />
+        </Activity>
 
         {/* taskbar */}
         <div className={`w-full fixed bottom-0 h-auto backdrop-blur-3xl bg-black/45 py-px flex justify-between items-center`}>
@@ -120,6 +140,14 @@ function page() {
               return <div key={icon.name} onClick={() => {
                 if (icon.clickable && icon.link) {
                   window.open(icon.link, '_blank');
+                }
+
+                if(icon.name === 'Notepad'){
+                  setTxtVisible(!txtVisible);
+                }
+
+                if (icon.name === 'File Explorer') {
+                  setExplorerVisible(!explorerVisible);
                 }
               }} className={`p-1 hover:bg-black/20 duration-150 ease-in-out rounded-md`}>
                 <Tooltip id="icon-tooltip" />

@@ -51,4 +51,10 @@ export const taskbar = [
         shortName: `Outlook`,
         link: `mailto:isudiptodas01@outlook.com`
     },
+    {
+        name: `Notepad`,
+        icon: `/assets/windows-icons/notepad.png`,
+        clickable: true,
+        shortName: `Notepad`,
+    },
 ]

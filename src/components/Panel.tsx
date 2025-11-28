@@ -11,7 +11,7 @@ import { IoAccessibilityOutline } from "react-icons/io5";
 import { CiBrightnessUp } from "react-icons/ci";
 import { IoVolumeHighOutline } from "react-icons/io5";
 
-function Panel({ className, visible }: { className: string, visible: boolean }) {
+function Panel({ className, visible, showSettings }: { className: string, visible: boolean, showSettings: () => void }) {
   return (
     <>
       <div className={`w-[25%] shadow-2xl border border-gray-600 z-30 flex flex-col justify-between items-center ${visible ? "-translate-y-14" : "translate-y-full"} duration-200 bottom-0 ease-in-out h-[55%] absolute right-5 ${className} bg-zinc-800 rounded-md`}>
@@ -83,7 +83,7 @@ function Panel({ className, visible }: { className: string, visible: boolean }) 
         {/* battery */}
         <div className={`w-full h-[20%] bg-zinc-900 rounded-b-md flex justify-between items-center pl-5 pr-1`}>
           <p className={`w-auto flex justify-center items-center gap-1 text-white text-[12px]`}><span className={`text-white text-xl`}><FaBatteryFull /></span> 70%</p>
-          <span className={`text-white cursor-pointer hover:bg-black/20 duration-150 ease-in-out p-3 rounded-md`}><IoSettingsOutline /></span>
+          <span onClick={showSettings} className={`text-white cursor-pointer hover:bg-black/20 duration-150 ease-in-out p-3 rounded-md`}><IoSettingsOutline /></span>
         </div>
       </div>
     </>
