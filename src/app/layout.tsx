@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Inspect from "./Inspect";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -14,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        {children}
+        <Inspect>
+          {children}
+        </Inspect>
       </body>
     </html>
   );
