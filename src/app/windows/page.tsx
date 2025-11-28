@@ -16,18 +16,27 @@ import Panel from "@/components/Panel";
 import WindowsSettings from "@/components/WindowsSettings";
 import FileExplorer from "@/components/FileExplorer";
 import TextFile from "@/components/TextFile";
+import { GoogleGenAI } from '@google/genai';
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
+type AiChat = {
+  name: string | undefined,
+  message: string | undefined,
+}
 
 function page() {
 
   const [percentage, setPercentage] = useState<number>(0);
   const [windowsVisible, setWindowsVisible] = useState(true);
   const [hideLoading, setHideLoading] = useState(false);
-  const [startVisible, setStartVisible] = useState(false);
+  const [startVisible, setStartVisible] = useState(true);
   const [settingsVisible, setSettingsVisible] = useState(false);
   const [input, setInput] = useState<null | string>('');
   const [panelVisible, setPanelVisible] = useState(false);
   const [explorerVisible, setExplorerVisible] = useState(false);
   const [txtVisible, setTxtVisible] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [chat, setChat] = useState<[] | AiChat[]>([]);
 
   const date = new Date();
   const time = date.toLocaleTimeString('en-GB', {
@@ -60,6 +69,39 @@ function page() {
 
   }, []);
 
+  useEffect(() => {
+
+    if (!submitted) return;
+    if (!input) return;
+
+    const generateResponse = async () => {
+      const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API as string;
+      const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+      const data = process.env.NEXT_PUBLIC_PROMPT as string;
+      const systemPrompt = process.env.NEXT_PUBLIC_SYSTEM_PROMPT_2 as string;
+      try {
+        const response = await ai.models.generateContent({
+          model: 'gemini-2.5-flash',
+          contents: `DATA: ${data}, question : ${input}`,
+          config: {
+            systemInstruction: systemPrompt,
+          },
+        });
+
+        console.log(response.text);
+        setChat(prev => [...prev, { name: 'you', message: input as string }, { name: 'ai', message: response.text as string }]);
+      } catch (err: any) {
+        console.log(err);
+      }
+      finally {
+        setSubmitted(false);
+        setInput('');
+      }
+    }
+
+    generateResponse();
+  }, [submitted]);
+
   return (
     <>
       <div className={`w-full h-screen bg-blue-600 flex flex-col justify-center items-center gap-3 xl:hidden`}>
@@ -82,14 +124,15 @@ function page() {
 
         {/* windows start */}/
         <div className={`w-1/2 ${startVisible ? "-translate-y-24" : "translate-y-full"} duration-200 ease-in-out h-[500px] absolute bottom-0 z-20 rounded-md flex flex-col justify-between items-center bg-zinc-800 border border-gray-600`}>
-          <div className={`w-full h-full flex flex-col justify-start items-center`}>
+          <div className={`w-full h-full flex flex-col justify-start items-center overflow-hidden`}>
             <div className={`w-[95%] h-auto relative flex justify-center items-center`}>
               <span className={` text-gray-400 rounded-l-full mt-5 bg-black/25 p-2`}><CiSearch /></span>
-              <p className={`w-[90%] mt-5 bg-black/25 rounded-r-full py-[3px] flex justify-start items-center gap-2`}><input type="text" className={`w-[85%] placeholder-gray-400 text-white text-[12px] px-3 py-1 rounded-r-full outline-none`} onChange={(e) => setInput(e.target.value)} value={input as string} placeholder="Search for education, skills, projects" /></p>
+              <p className={`w-[90%] mt-5 bg-black/25 rounded-r-full py-[3px] flex justify-start items-center gap-2`}><input type="text" className={`w-[85%] placeholder-gray-400 text-white text-[12px] px-3 py-1 rounded-r-full outline-none`} onKeyDown={(e) => { if (e.key === 'Enter') { setSubmitted(true); } }} onChange={(e) => setInput(e.target.value)} value={input as string} placeholder="Ask AI for anything" /></p>
+              <span className={`text-white ${submitted ? "opacity-100" : "opacity-0"} duration-150 ease-in-out fixed top-7 animate-revolve right-10`}><AiOutlineLoading3Quarters/></span>
             </div>
 
             {/* apps list */}
-            <Activity mode={input ? "hidden" : "visible"}>
+            <Activity mode={input !== '' || chat.length > 0 ? "hidden" : "visible"}>
               <div className={`w-full h-auto pt-10 grid grid-cols-6 justify-items-center gap-5 px-8`}>
                 {taskbar.map((icon) => {
                   return <div key={icon.name} onClick={() => {
@@ -103,6 +146,12 @@ function page() {
                 })}
               </div>
             </Activity>
+
+            <div className={`w-full h-full ${chat.length > 0 ? "block" : "hidden"} flex flex-col pt-5 pb-10 px-10 justify-start items-center overflow-y-auto scrollbar`}>
+              {chat.length > 0 && chat.map((item, index) => {
+                return <p key={index} className={`w-full pb-2 px-2 pr-4 text-[12px] text-white flex gap-3`}><span className={`text-blue-500 text-[12px] font-mono font-semibold`}>{item.name}</span>: {item.message}</p>
+              })}
+            </div>
           </div>
 
           <div className={`w-full h-[15%] flex justify-between items-center bg-zinc-900 rounded-b-md`}>
@@ -122,7 +171,7 @@ function page() {
 
         {/* control panel  */}
         <Panel showSettings={() => setSettingsVisible(!settingsVisible)} visible={panelVisible} className={``} />
-        
+
         {/* txt file */}
         <Activity mode={txtVisible ? "visible" : "hidden"}>
           <TextFile closeFile={() => setTxtVisible(!txtVisible)} />
@@ -142,7 +191,7 @@ function page() {
                   window.open(icon.link, '_blank');
                 }
 
-                if(icon.name === 'Notepad'){
+                if (icon.name === 'Notepad') {
                   setTxtVisible(!txtVisible);
                 }
 

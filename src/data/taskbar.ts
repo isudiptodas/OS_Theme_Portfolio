@@ -8,8 +8,9 @@ export const taskbar = [
     {
         name: `Google Chrome`,
         icon: `/assets/app-icons/chrome.png`,
-        clickable: false,
-        shortName: `Chrome`
+        clickable: true,
+        shortName: `Chrome`,
+        link:`https://www.google.com`
     },
     {
         name: `Microsoft Edge`,
