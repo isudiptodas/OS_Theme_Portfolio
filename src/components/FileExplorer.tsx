@@ -122,6 +122,12 @@ function FileExplorer({ showSettings, showNotepad }: { showSettings: () => void,
                                         <p className={`text-[12px] text-white font-light w-[20%]`}>28-11-2025 16:46</p>
                                         <p className={`text-[12px] text-white font-light w-[20%]`}>Text Document</p>
                                     </div>
+                                    <div onClick={() => window.open('/cv_sudipto.pdf', '_blank')} className={`w-full cursor-pointer hover:bg-white/10 duration-150 ease-in-out py-1 px-2 rounded-sm flex justify-start items-center gap-2`}>
+                                        <p className={`text-[12px] text-white font-light w-[30%] flex justify-start items-center gap-1`}><img src='/assets/windows-icons/pdf.png' className={`h-3`} /> cv_sudipto.pdf</p>
+                                        <p className={`text-[12px] text-white font-light w-[20%]`}></p>
+                                        <p className={`text-[12px] text-white font-light w-[20%]`}>28-11-2025 19:19</p>
+                                        <p className={`text-[12px] text-white font-light w-[20%]`}>PDF Document</p>
+                                    </div>
                                 </div>
                             </Activity>
                         </div>

@@ -11,6 +11,7 @@ import Terminal from "@/components/Terminal";
 import Settings from "@/components/Settings";
 import Notes from "@/components/Notes";
 import { FaCircleExclamation } from "react-icons/fa6";
+import Link from "next/link";
 
 function page() {
 
@@ -97,6 +98,7 @@ function page() {
                         <p className={`text-sm cursor-pointer`}>Edit</p>
                         <p className={`text-sm cursor-pointer`}>View</p>
                         <p className={`text-sm cursor-pointer`}>Help</p>
+                        <Link download="/cv_sudipto.pdf" href='' className={`text-sm cursor-pointer`}>Resume</Link>
                     </div>
 
                     <div className={`w-auto flex justify-center items-center gap-4`}>

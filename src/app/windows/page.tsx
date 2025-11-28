@@ -29,7 +29,7 @@ function page() {
   const [percentage, setPercentage] = useState<number>(0);
   const [windowsVisible, setWindowsVisible] = useState(true);
   const [hideLoading, setHideLoading] = useState(false);
-  const [startVisible, setStartVisible] = useState(true);
+  const [startVisible, setStartVisible] = useState(false);
   const [settingsVisible, setSettingsVisible] = useState(false);
   const [input, setInput] = useState<null | string>('');
   const [panelVisible, setPanelVisible] = useState(false);
