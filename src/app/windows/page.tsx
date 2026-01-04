@@ -104,12 +104,12 @@ function page() {
 
   return (
     <>
-      <div className={`w-full h-screen bg-blue-600 flex flex-col justify-center items-center gap-3 xl:hidden`}>
+      <div className={`w-full h-screen bg-blue-600 flex flex-col justify-center items-center gap-3 lg:hidden`}>
         <span className={`text-3xl md:text-5xl text-white opacity-60`}><FaCircleExclamation /></span>
         <p className={`w-full text-center px-4 font-semibold text-xl md:text-2xl text-white opacity-60`}>This page is only available for desktop screens</p>
       </div>
 
-      <div className={`w-full ${hideLoading ? "hidden" : "block"} absolute top-0 ${windowsVisible ? "opacity-0" : "opacity-100"} duration-300 ease-in-out h-screen hidden bg-blue-600 xl:flex justify-center items-center gap-3`}>
+      <div className={`w-full ${hideLoading ? "hidden" : "block"} absolute top-0 ${windowsVisible ? "opacity-0" : "opacity-100"} duration-300 ease-in-out h-screen hidden bg-blue-600 lg:flex justify-center items-center gap-3`}>
         <span><FaWindows className={`text-white text-2xl`} /></span>
         <ProgressBar
           completed={percentage as number}
@@ -230,3 +230,4 @@ function page() {
 }
 
 export default page
+
